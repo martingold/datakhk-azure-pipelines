@@ -1,0 +1,358 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "goldma1-df"
+		},
+		"datakhk_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'datakhk'"
+		},
+		"UZIS_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://onemocneni-aktualne.mzcr.cz/"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/data_zakladni_prehled')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "ockovani_zakladni_prehled",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "api/v2/covid-19/ockovani-zakladni-prehled.csv"
+							},
+							{
+								"name": "Destination",
+								"value": "dbo.data_zakladni_prehled"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings",
+									"skipLineCount": 0
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "upsert",
+								"upsertSettings": {
+									"useTempDB": true,
+									"keys": [
+										"id"
+									]
+								},
+								"sqlWriterUseTableLock": false,
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "id",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "id",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "kraj_nazev",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "kraj_nazev",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "kraj_nuts_kod",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "kraj_nuts_kod",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "orp_bydliste",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "orp_bydliste",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "orp_bydliste_kod",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "orp_bydliste_kod",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "vakcina",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "vakcina",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "vakcina_kod",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "vakcina_kod",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "poradi_davky",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "poradi_davky",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "vekova_skupina",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "vekova_skupina",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "pohlavi",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "pohlavi",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "pocet_davek",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "pocet_davek",
+											"type": "String"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_ihw",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_ihw",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {},
+					"cancelAfter": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2023-04-04T20:11:46Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceDataset_ihw')]",
+				"[concat(variables('factoryId'), '/datasets/DestinationDataset_ihw')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DestinationDataset_ihw')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "datakhk",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "data_zakladni_prehled"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/datakhk')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceDataset_ihw')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "UZIS",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": "api/v2/covid-19/ockovani-zakladni-prehled.csv"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "id",
+						"type": "String"
+					},
+					{
+						"name": "kraj_nazev",
+						"type": "String"
+					},
+					{
+						"name": "kraj_nuts_kod",
+						"type": "String"
+					},
+					{
+						"name": "orp_bydliste",
+						"type": "String"
+					},
+					{
+						"name": "orp_bydliste_kod",
+						"type": "String"
+					},
+					{
+						"name": "vakcina",
+						"type": "String"
+					},
+					{
+						"name": "vakcina_kod",
+						"type": "String"
+					},
+					{
+						"name": "poradi_davky",
+						"type": "String"
+					},
+					{
+						"name": "vekova_skupina",
+						"type": "String"
+					},
+					{
+						"name": "pohlavi",
+						"type": "String"
+					},
+					{
+						"name": "pocet_davek",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/UZIS')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/UZIS')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "HttpServer",
+				"typeProperties": {
+					"url": "[parameters('UZIS_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/datakhk')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('datakhk_connectionString')]"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
