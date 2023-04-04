@@ -1,0 +1,17 @@
+{
+	"name": "DestinationDataset_ihw",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "datakhk",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "data_zakladni_prehled"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

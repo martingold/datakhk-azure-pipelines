@@ -1,0 +1,193 @@
+{
+	"name": "data_zakladni_prehled",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_ihw",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "api/v2/covid-19/ockovani-zakladni-prehled.csv"
+					},
+					{
+						"name": "Destination",
+						"value": "dbo.data_zakladni_prehled"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings",
+							"skipLineCount": 0
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"tableOption": "autoCreate"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "id",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "id",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "kraj_nazev",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "kraj_nazev",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "kraj_nuts_kod",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "kraj_nuts_kod",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "orp_bydliste",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "orp_bydliste",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "orp_bydliste_kod",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "orp_bydliste_kod",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "vakcina",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "vakcina",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "vakcina_kod",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "vakcina_kod",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "poradi_davky",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "poradi_davky",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "vekova_skupina",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "vekova_skupina",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "pohlavi",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "pohlavi",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "pocet_davek",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "pocet_davek",
+									"type": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceDataset_ihw",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DestinationDataset_ihw",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2023-04-04T20:11:46Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

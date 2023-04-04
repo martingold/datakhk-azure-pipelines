@@ -1,0 +1,9 @@
+{
+	"name": "goldma1-df",
+	"location": "westeurope",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "909cb03c-b5b5-4ba9-bc3e-6c232fbdd98d",
+		"tenantId": "afbb4e09-5652-4817-9335-cd1413fac95a"
+	}
+}

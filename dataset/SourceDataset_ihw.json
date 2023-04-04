@@ -1,0 +1,68 @@
+{
+	"name": "SourceDataset_ihw",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "UZIS",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "api/v2/covid-19/ockovani-zakladni-prehled.csv"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "id",
+				"type": "String"
+			},
+			{
+				"name": "kraj_nazev",
+				"type": "String"
+			},
+			{
+				"name": "kraj_nuts_kod",
+				"type": "String"
+			},
+			{
+				"name": "orp_bydliste",
+				"type": "String"
+			},
+			{
+				"name": "orp_bydliste_kod",
+				"type": "String"
+			},
+			{
+				"name": "vakcina",
+				"type": "String"
+			},
+			{
+				"name": "vakcina_kod",
+				"type": "String"
+			},
+			{
+				"name": "poradi_davky",
+				"type": "String"
+			},
+			{
+				"name": "vekova_skupina",
+				"type": "String"
+			},
+			{
+				"name": "pohlavi",
+				"type": "String"
+			},
+			{
+				"name": "pocet_davek",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
