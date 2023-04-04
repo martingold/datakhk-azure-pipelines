@@ -353,6 +353,36 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/Daily')]",
+			"type": "Microsoft.DataFactory/factories/triggers",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"runtimeState": "Started",
+				"pipelines": [
+					{
+						"pipelineReference": {
+							"referenceName": "data_zakladni_prehled",
+							"type": "PipelineReference"
+						},
+						"parameters": {}
+					}
+				],
+				"type": "ScheduleTrigger",
+				"typeProperties": {
+					"recurrence": {
+						"frequency": "Hour",
+						"interval": 24,
+						"startTime": "2023-04-04T01:00:00Z",
+						"timeZone": "UTC"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/pipelines/data_zakladni_prehled')]"
+			]
 		}
 	]
 }
