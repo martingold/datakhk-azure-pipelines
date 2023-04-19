@@ -4,12 +4,12 @@
 	"parameters": {
 		"factoryName": {
 			"type": "string",
-			"metadata": "Data Factory name",
+			"metadata": "Název datové továrny",
 			"defaultValue": "goldma1-df"
 		},
 		"datakhk_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'datakhk'"
+			"metadata": "Zabezpečený řetězec pro: connectionString z datakhk"
 		},
 		"UZIS_properties_typeProperties_url": {
 			"type": "string",
@@ -247,7 +247,7 @@
 				"schema": [],
 				"typeProperties": {
 					"schema": "dbo",
-					"table": "data_zakladni_prehled"
+					"table": "00_prehled"
 				}
 			},
 			"dependsOn": [

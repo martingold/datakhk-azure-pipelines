@@ -4,12 +4,12 @@
 	"parameters": {
 		"factoryName": {
 			"type": "string",
-			"metadata": "Data Factory name",
+			"metadata": "Název datové továrny",
 			"defaultValue": "goldma1-df"
 		},
 		"datakhk_connectionString": {
 			"type": "secureString",
-			"metadata": "Secure string for 'connectionString' of 'datakhk'"
+			"metadata": "Zabezpečený řetězec pro: connectionString z datakhk"
 		},
 		"UZIS_properties_typeProperties_url": {
 			"type": "string",
@@ -17,11 +17,11 @@
 		},
 		"containerUri": {
 			"type": "string",
-			"metadata": "URI to storage account containing linked ARM templates"
+			"metadata": "Identifikátor URI k účtu úložiště obsahujícímu propojené šablony ARM"
 		},
 		"containerSasToken": {
 			"type": "string",
-			"metadata": "Sas token to storage account containing linked ARM templates"
+			"metadata": "Token SAS pro účet úložiště, který obsahuje propojené šablony ARM"
 		}
 	},
 	"variables": {
